@@ -1,7 +1,7 @@
 {
     "name": "tres-erres/slim-cli",
     "description": "CLI generador de archivos y proveedor de utilidades",
-    "type": "library, composer-plugin",
+    "type": "composer-plugin",
     "require": {
         "adodb/adodb-php": "dev-master",
         "slim/slim": "^3.1",
