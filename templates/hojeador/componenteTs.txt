@@ -1,0 +1,131 @@
+import { Component, OnInit, ViewChild, ViewChildren, QueryList, Inject } from '@angular/core';
+import { UtilService, HttpService } from '@app/core';
+import { Router } from '@angular/router';
+import { HojeadorComponent, HojeadorPrefs } from '@componentes/hojeador';
+import { FocusNextDirective } from '@app/shared';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { environment } from '@env';
+
+@Component({
+  selector: 'tr-_min_',
+  templateUrl: './_min_.component.html',
+  styleUrls: ['./_min_.component.scss']
+})
+export class PublicacionesComponent implements OnInit {
+  @ViewChild(HojeadorComponent) hojeador: HojeadorComponent;
+  hojeadorPrefs: HojeadorPrefs;
+  @ViewChildren(FocusNextDirective) focusElements: QueryList<FocusNextDirective>;
+  path: string[];
+  editando: boolean;
+
+  constructor(
+    private router: Router,
+    private httpService: HttpService,
+    private utilService: UtilService,
+    public dialog: MatDialog
+  ) { }
+
+  ngOnInit() {
+    this.path = this.router.url.split('/').splice(1);
+    this.init();
+    this.editando = false;
+  }
+  init() {
+    this.hojeadorPrefs = {
+      columnas: [
+        _colusHoj_
+      ],
+      url: 'hojeador/_min_',
+      acciones: [
+        { title: () => 'Editar', icon: () => 'edit', handler: (element) => { this.editar(element) } },
+        { title: () => 'Eliminar', icon: () => 'delete', handler: (element) => { this.eliminar(element) } }
+      ]
+    };
+    this.hojeador.init(this.hojeadorPrefs);
+  }
+  limpiar() {
+    console.log("limpieza")
+  }
+  eliminar(elemento) {
+    this.httpService.post('abm/_min_/eliminar', elemento).then((data) => {
+      this.utilService.notification(data.msg);
+      this.init();
+    });
+  }
+  nuevo(datos) {
+    if (!datos) {
+      datos = {};
+    }
+    this.limpiar();
+    this.editando = !this.editando;
+    const dialogRef = this.dialog.open(Dialogo_may_, {
+      width: '750px',
+      data: datos
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.init();
+      this.editando = false;
+    });
+  }
+  editar(elemento) {
+    this.nuevo(elemento);
+  }
+}
+@Component({
+  selector: 'dialog-_min_',
+  templateUrl: 'dialogo-_min_.html',
+  styleUrls: ['./_min_.component.scss']
+
+})
+export class Dialogo_may_ {
+  _params_
+  cambiaImg = false;
+  imagen = null;
+  imagenU = null;
+  constructor(
+    private utilService: UtilService,
+    private httpService: HttpService,
+    private http: HttpClient,
+    public dialogRef: MatDialogRef<Dialogo_may_>,
+    @Inject(MAT_DIALOG_DATA) public data: any) {
+    if (data) {
+      _injectParams_
+    }
+    console.log(data)
+  }
+
+  cancelar() {
+    this.dialogRef.close();
+  }
+  guardar() {
+    var formData = new FormData();
+    _formDataParams_
+    if (this.cambiaImg)
+      formData.append('imagen', this.imagenU, this.imagenU.name);
+
+    this.httpService.post('abm/_min_', formData).then((data) => {
+      if (data.err) {
+        this.data.respuesta = "Error";
+      } else {
+        this.data.respuesta = data.msg;
+      }
+      this.dialogRef.close();
+    });
+  }
+
+  clickImagen(imagenInput) {
+    if (this.imagen === null) { imagenInput.click(); this.cambiaImg = true; } else { this.imagen = null; }
+  }
+
+  cargaImagen(ev) {
+    this.utilService.leeArchivo(ev.target, 'dataurl', () => {
+      this.utilService.notification('Error al cargar la imagen');
+    }).then(result => {
+      this.imagen = result;
+      this.imagenU = ev.target.files[0];
+    });
+  }
+}
+

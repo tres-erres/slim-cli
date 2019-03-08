@@ -1,0 +1,12 @@
+import { NgModule } from '@angular/core';
+import { Routes, RouterModule } from '@angular/router';
+import { _may_Component } from './_min_.component';
+
+const routes: Routes = [
+    { path: '', component: _may_Component }
+];
+@NgModule({
+  imports: [RouterModule.forChild(routes)],
+  exports: [RouterModule]
+})
+export class _may_RoutingModule { }

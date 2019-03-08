@@ -1,0 +1,16 @@
+<mat-card>
+  <mat-card-content>
+    <tr-breadcrumbs [pages]="path"></tr-breadcrumbs>
+    <div class="row center-align">
+      <div class="col s1">
+        <button (click)="nuevo()" mat-fab color="{{editando?'secondary':'primary'}}">{{editando===true?'X':'+'}}</button>
+      </div>
+    </div>
+    <div class="row no-margin">
+      <div *ngIf="editando" class="col l4 s12"></div>
+      <div class="col s12">
+        <tr-hojeador></tr-hojeador>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>
