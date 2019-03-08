@@ -200,7 +200,7 @@ function cmdGenerar($args) {
 				replace_string_in_file($filename, $string_to_replace, $replace_with);
 				$filename=$pathFront.'/'.$tabla.'-routing.module.ts';
 				$string_to_replace="_min_";
-				$replace_with=$entidad;
+				$replace_with=$tabla;
 				replace_string_in_file($filename, $string_to_replace, $replace_with);
 				$filename=$pathFront.'/'.$tabla.'.module.ts';
 				$string_to_replace="_may_";
