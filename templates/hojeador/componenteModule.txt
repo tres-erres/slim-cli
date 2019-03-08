@@ -1,0 +1,20 @@
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+
+import { _may_RoutingModule } from './_min_-routing.module';
+import { _may_Component } from './_min_.component';
+import { Dialogo_may_ } from './_min_.component';
+import { SharedModule } from '@app/shared/shared.module';
+
+@NgModule({
+  declarations: [_may_Component,Dialogo_may_],
+  imports: [
+    CommonModule,
+    _may_RoutingModule,
+    SharedModule
+  ],
+  entryComponents:[
+    Dialogo_may_
+  ]
+})
+export class _may_Module { }

@@ -1,0 +1,13 @@
+.img-_min_{
+    cursor: pointer;
+    width: 5em;
+}
+.icono-img {
+    vertical-align: middle;
+    margin-right: 8px;
+    max-width: 25px;
+}
+
+input[type="file"] {
+	display: none;
+}

@@ -1,0 +1,35 @@
+<h1 mat-dialog-title>Creacion de _min_</h1>
+<div class="row">
+  <!-- <mat-slide-toggle color="primary" [(ngModel)]="habilitado">Visible</mat-slide-toggle> -->
+</div>
+<div style="padding: 1em;" mat-dialog-content>
+  <div class="row">
+    <div class="col s6">
+_campos_
+      </div>
+    <div class="col s6">
+      <mat-card class="example-card center-align">
+        <img mat-card-image *ngIf="!imagen" class="img-perfil" [src]="path">
+        <ng-container *ngIf="imagen">
+          <img mat-card-image class="img-producto" src="{{ imagen }}" (click)="clickImagen($event)">
+        </ng-container>
+        <mat-card-actions>
+          <input type="file" #imagenInput (change)="cargaImagen($event)">
+          <ng-container *ngIf="!imagen">
+            <button title="Cargar imagen" color="primary" (click)="clickImagen(imagenInput)" mat-raised-button>
+              <mat-icon>cloud_upload</mat-icon>
+              <span>Nueva imagen</span>
+            </button>
+          </ng-container>
+          <button *ngIf="imagen" title="Cambiar imagen" color="secondary" (click)="clickImagen($event)"
+            mat-raised-button>Volver
+            a la anterior</button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  </div>
+</div>
+<div mat-dialog-actions>
+  <button mat-button color="primary" (click)="cancelar()">Cancelar</button>
+  <button mat-button color="accent" (click)="guardar()" cdkFocusInitial>Guardar</button>
+</div>

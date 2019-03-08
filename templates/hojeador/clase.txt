@@ -1,0 +1,93 @@
+<?php
+namespace App;
+/**
+*
+Clase _may_
+*
+**/
+class _may_
+{
+   
+    public function __construct($logger) {$this->logger = $logger;}
+
+    public function guardar($request, $response, array $args){
+      
+      $db = DBHandler::getHandler();
+      $_min_ = [];
+      $datos = array_merge($request->getQueryParams(),$request->getParsedBody());
+      $uploadedFiles = $request->getUploadedFiles();
+      $rta['err'] = 1;
+      $rta['status'] = "error";
+      $rta['msg'] = "Hubo un error";
+      if($uploadedFiles){
+        if($datos['_ide_'] != 0){
+          $condition = array('_ide_' => $datos['_ide_']);
+          $ide = $datos['_ide_'];
+          unset($datos['_ide_']);
+          $result = $db->update('_min_', $datos, $condition);
+        }else{
+          unset($datos['_ide_']);
+          $result = $db->insert('_min_', $datos);
+          $ide = $result['id'];
+        }
+        if($result){
+          $directory = '../../../assets/_min_/'.$ide.'/';
+          if (!file_exists($directory)) {
+            mkdir($directory, 0777, true);
+          }
+          $uploadedFile = $uploadedFiles['imagen'];
+          $extension = 'jpg';
+          $basename = $ide;
+          $filename = sprintf('%s.%0.8s', $basename, $extension);
+          $move = $uploadedFile->moveTo($directory.$filename);
+          if($move){
+            $rta['err'] = 0;
+            $rta['status'] = "success";
+            $rta['msg'] = "El _min_ se ha creado!";
+          }else{
+            $rta['err'] = 1;
+            $rta['status'] = "error";
+            $rta['msg'] = "Hubo un error al mover la imagen";
+          }
+        }else{
+          $rta['err'] = 2;
+          $rta['status'] = "error";
+          $rta['msg'] = "Hubo un error al insertar";
+        }
+      }else{
+        if($datos['_ide_']){
+          $condition = array('_ide_' => $datos['_ide_']);
+          unset($datos['_ide_']);
+          $result = $db->update('_min_', $datos, $condition);
+          if($result){
+            $rta['err'] = 0;
+            $rta['status'] = "success";
+            $rta['msg'] = "El _min_ se ha actualizado";
+          }else{
+            $rta['err'] = 1;
+            $rta['status'] = "error";
+            $rta['msg'] = "Hubo un error al actualizar el _min_";
+          }
+        }
+      }
+      return $response->withJson($rta);
+    }
+    public function eliminar($request, $response, array $args){
+      $db = DBHandler::getHandler();
+      $datos = array_merge($request->getQueryParams(),$request->getParsedBody());
+      $ide = $datos['_ide_'];
+      $condition = array('_ide_' => $ide);
+      $delete = $db->delete("_min_", $condition);
+      if($delete){  $rta['err'] = 1;
+        $rta['err'] = "0";
+        $rta['status'] = "success";
+        $rta['msg'] = "La _min_ ha sido eliminado.";
+      }else{
+        $rta['err'] = 1;
+        $rta['status'] = "error";
+        $rta['msg'] = "Hubo un error al eliminar el _min_.";
+      }
+      return $response->withJson($rta);
+    }
+
+}
