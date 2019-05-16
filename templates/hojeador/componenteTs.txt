@@ -12,7 +12,8 @@ import { environment } from '@env';
   templateUrl: './_min_.component.html',
   styleUrls: ['./_min_.component.scss']
 })
-export class PublicacionesComponent implements OnInit {
+
+export class _may_Component implements OnInit {
   @ViewChild(HojeadorComponent) hojeador: HojeadorComponent;
   hojeadorPrefs: HojeadorPrefs;
   @ViewChildren(FocusNextDirective) focusElements: QueryList<FocusNextDirective>;
