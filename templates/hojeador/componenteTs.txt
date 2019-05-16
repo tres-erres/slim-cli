@@ -12,6 +12,7 @@ import { environment } from '@env';
   templateUrl: './_min_.component.html',
   styleUrls: ['./_min_.component.scss']
 })
+
 export class _may_Component implements OnInit {
   @ViewChild(HojeadorComponent) hojeador: HojeadorComponent;
   hojeadorPrefs: HojeadorPrefs;
